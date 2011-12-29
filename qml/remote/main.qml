@@ -34,7 +34,7 @@ Rectangle {
         color: "gray"
 
         anchors.top: serverInput.bottom
-        anchors.bottom: parent.bottom
+        anchors.bottom: leftButton.top
         anchors.left: parent.left
         anchors.right: parent.right
 
@@ -64,4 +64,68 @@ Rectangle {
         }
     }
 
+    Rectangle {
+        id: leftButton
+        border.width: 1
+        border.color: "black"
+        color: "gray"
+
+        height: 60
+        width: parent.width * 0.45
+
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                console.log("left clicked")
+                xte.send(server, port, "mouseclick 1");
+            }
+        }
+    }
+
+    Rectangle {
+        id: middleButton
+        border.width: 1
+        border.color: "black"
+        color: "gray"
+
+        height: 60
+        width: parent.width * 0.1
+
+        anchors.bottom: parent.bottom
+        anchors.left: leftButton.right
+        anchors.top: leftButton.top
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                console.log("middle clicked")
+                xte.send(server, port, "mouseclick 2");
+            }
+        }
+    }
+
+    Rectangle {
+        id: rightButton
+        border.width: 1
+        border.color: "black"
+        color: "gray"
+
+        height: 60
+        width: parent.width * 0.45
+
+        anchors.bottom: parent.bottom
+        anchors.left: middleButton.right
+        anchors.top: leftButton.top
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                console.log("right clicked")
+                xte.send(server, port, "mouseclick 3");
+            }
+        }
+    }
 }
