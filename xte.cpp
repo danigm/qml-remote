@@ -1,21 +1,25 @@
 #include "xte.h"
-#include <QtNetwork/QUdpSocket>
 #include <QDebug>
 
 Xte::Xte(QDeclarativeItem *parent) :
     QDeclarativeItem(parent)
 {
+    mSock = new QUdpSocket(this);
+    qDebug() << "new socket";
+}
+
+Xte::~Xte() {
+    mSock->close();
+    delete mSock;
 }
 
 int Xte::send(QString host, int port, QString str)
 {
     qDebug() << host << port << str.toAscii();
 
-    QUdpSocket *s = new QUdpSocket(this);
     QHostAddress h(host);
-    int x = s->writeDatagram(str.toAscii(), str.size(), h, port);
-    if (x < 0) qDebug() << s->errorString();
-
+    int x = mSock->writeDatagram(str.toAscii(), str.size(), h, port);
+    if (x < 0) qDebug() << mSock->errorString();
 
     return 1;
 }

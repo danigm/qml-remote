@@ -11,7 +11,7 @@ Rectangle {
     property int prevX: 0
     property int prevY: 0
 
-    property string server: "localhost"
+    property string server: "192.168.2.1"
     property int port: 8432
 
     Xte {
@@ -30,7 +30,7 @@ Rectangle {
     Rectangle {
         id: mouseDrag
         border.width: 1
-        border.color: black
+        border.color: "black"
         color: "gray"
 
         anchors.top: serverInput.bottom
