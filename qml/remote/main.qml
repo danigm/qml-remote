@@ -52,8 +52,8 @@ Rectangle {
                 prevY = 0;
             }
             onPositionChanged: {
-                xpos += mouseX - prevX;
-                ypos += mouseY - prevY;
+                xpos = mouseX - prevX;
+                ypos = mouseY - prevY;
 
                 console.log("drag (" + xpos + ", " + ypos + ")");
                 xte.send(server, port, "mousermove " + xpos + " " + ypos);
