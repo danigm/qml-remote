@@ -56,7 +56,7 @@ Rectangle {
                 ypos += mouseY - prevY;
 
                 console.log("drag (" + xpos + ", " + ypos + ")");
-                xte.send(server, port, "mousemove " + xpos + " " + ypos);
+                xte.send(server, port, "mousermove " + xpos + " " + ypos);
 
                 prevX = mouseX;
                 prevY = mouseY;
