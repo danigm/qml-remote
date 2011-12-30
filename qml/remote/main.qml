@@ -102,13 +102,45 @@ Rectangle {
         }
     }
 
+    Row {
+        id: row
+        height: 30
+        anchors {
+            top: textInput.bottom
+            left: parent.left
+            right: parent.right
+        }
+
+        spacing: 5
+
+        Button {
+            text: "Esc"
+            key: "Escape"
+        }
+
+        Button {
+            text: "BackSpace"
+            key: "BackSpace"
+        }
+
+        Button {
+            text: "Enter"
+            key: "Return"
+        }
+
+        Button {
+            text: "Tab"
+            key: "Tab"
+        }
+    }
+
     Rectangle {
         id: mouseDrag
         border.width: 1
         border.color: "black"
         color: "gray"
 
-        anchors.top: textInput.bottom
+        anchors.top: row.bottom
         anchors.bottom: leftButton.top
         anchors.left: parent.left
         anchors.right: parent.right
