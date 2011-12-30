@@ -33,6 +33,26 @@ Rectangle {
         onTextChanged: {
             server = text
         }
+
+        Rectangle {
+            id: closeButton
+            height: parent.height - 10
+            width: height
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.margins: 5
+
+            color: "black"
+            radius: 30
+            smooth: true
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    Qt.quit();
+                }
+            }
+        }
     }
 
     Text {
