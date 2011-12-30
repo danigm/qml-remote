@@ -98,11 +98,50 @@ Rectangle {
         anchors.left: leftButton.right
         anchors.top: leftButton.top
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                console.log("middle clicked")
-                xte.send(server, port, "mouseclick 2");
+        Rectangle {
+            id: scroll
+
+            border.width: 1
+            border.color: "black"
+            color: "red"
+
+            height: parent.height / 2
+            y: (parent.height - height) / 2
+
+            onYChanged: {
+                if (y == scrollMA.drag.minimumY) {
+                    console.log("Scroll up")
+                    xte.send(server, port, "mouseclick 4")
+                } else if (y == scrollMA.drag.maximumY) {
+                    console.log("Scroll down")
+                    xte.send(server, port, "mouseclick 5")
+                }
+            }
+
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+
+            MouseArea {
+                id: scrollMA
+                anchors.fill: parent
+                drag.target: parent
+                drag.axis: "YAxis"
+                drag.minimumY: 0
+                drag.maximumY: middleButton.height - scroll.height
+                // drag.filterChildren: false
+                onReleased: {
+                    scroll.y = (middleButton.height - scroll.height) / 2
+                }
+                onClicked: {
+                    console.log("middle clicked")
+                    xte.send(server, port, "mouseclick 2");
+                }
+            }
+
+            Behavior on y {
+                NumberAnimation { duration: 200 }
             }
         }
     }
