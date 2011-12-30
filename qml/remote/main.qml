@@ -40,9 +40,6 @@ Rectangle {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: {
-                xte.send(server, port, "mouseclick 1")
-            }
             onPressed: {
                 prevX = mouseX;
                 prevY = mouseY;
@@ -115,10 +112,12 @@ Rectangle {
             onYChanged: {
                 if (y == scrollMA.drag.minimumY) {
                     console.log("Scroll up")
+                    xte.send(server, port, "mouseclick 4")
                     repeaterTimer.button = 4
                     repeaterTimer.start()
                 } else if (y == scrollMA.drag.maximumY) {
                     console.log("Scroll down")
+                    xte.send(server, port, "mouseclick 5")
                     repeaterTimer.button = 5
                     repeaterTimer.start()
                 } else {
