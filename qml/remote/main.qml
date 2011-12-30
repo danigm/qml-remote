@@ -210,7 +210,7 @@ Rectangle {
 
             color: "red"
 
-            height: parent.height / 1.5
+            height: parent.height / 1.10
             y: (parent.height - height) / 2
             radius: 10
             smooth: true
