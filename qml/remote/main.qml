@@ -21,11 +21,13 @@ Rectangle {
     Text {
         id: serverLabel
         text: "Server: "
+        font.pixelSize: 30
     }
 
     TextInput {
         id: serverInput
         text: server
+        font.pixelSize: 30
 
         anchors.left: serverLabel.right
         anchors.right: parent.right
@@ -58,6 +60,7 @@ Rectangle {
     Text {
         id: textLabel
         text: "text: "
+        font.pixelSize: 30
 
         anchors.left: parent.left
         anchors.top: serverLabel.bottom
@@ -66,6 +69,7 @@ Rectangle {
     TextInput {
         id: textInput
 
+        font.pixelSize: 30
         anchors.left: textLabel.right
         anchors.top: serverLabel.bottom
         anchors.right: parent.right
