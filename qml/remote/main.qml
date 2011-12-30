@@ -3,15 +3,13 @@ import QtQuick 1.1
 import Xte 1.0
 
 Rectangle {
-    width: 360
-    height: 360
-
+    anchors.fill: parent
     property int xpos: 0
     property int ypos: 0
     property int prevX: 0
     property int prevY: 0
 
-    property string server: "192.168.2.1"
+    property string server: "192.168.1.2"
     property int port: 8432
 
     Xte {
@@ -30,36 +28,44 @@ Rectangle {
         font.pixelSize: 30
 
         anchors.left: serverLabel.right
-        anchors.right: parent.right
+        anchors.right: closeButton.left
 
         onTextChanged: {
             server = text
         }
 
-        Rectangle {
-            id: closeButton
-            height: parent.height - 10
-            width: height
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.margins: 5
-
-            color: "black"
-            radius: 30
-            smooth: true
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    Qt.quit();
-                }
-            }
-        }
     }
 
+    Rectangle {
+        id: closeButton
+        height: serverInput.height - 4
+        width: height + 20
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.margins: 2
+
+        color: "black"
+        radius: 10
+        smooth: true
+        z: 10
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                Qt.quit();
+            }
+        }
+
+        Text {
+            id: closeText
+            text: "X"
+            color: "white"
+            anchors.centerIn: parent
+        }
+    }
     Text {
         id: textLabel
-        text: "text: "
+        text: "Text: "
         font.pixelSize: 30
 
         anchors.left: parent.left
@@ -156,7 +162,7 @@ Rectangle {
         anchors.top: row.bottom
         anchors.bottom: leftButton.top
         anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.right: parent.right // scrollBar.left
 
         MouseArea {
             anchors.fill: parent
@@ -177,6 +183,73 @@ Rectangle {
 
                 prevX = mouseX;
                 prevY = mouseY;
+            }
+        }
+    }
+
+    Rectangle {
+        id: scrollBar
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "#860000" }
+            GradientStop { position: 0.5; color: "#ff0000" }
+            GradientStop { position: 1.0; color: "#860000" }
+        }
+
+        width: 40
+        radius: 10
+        smooth: true
+
+        anchors {
+            bottom: mouseDrag.bottom
+            top: mouseDrag.top
+            right: parent.right
+        }
+
+        Rectangle {
+            id: scroll
+
+            color: "red"
+
+            height: parent.height / 1.5
+            y: (parent.height - height) / 2
+            radius: 10
+            smooth: true
+
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+
+            onYChanged: {
+                if (y == scrollMA.drag.minimumY) {
+                    console.log("Scroll up")
+                    xte.send(server, port, "mouseclick 4")
+                    repeaterTimer.button = 4
+                    repeaterTimer.start()
+                } else if (y == scrollMA.drag.maximumY) {
+                    console.log("Scroll down")
+                    xte.send(server, port, "mouseclick 5")
+                    repeaterTimer.button = 5
+                    repeaterTimer.start()
+                } else {
+                    repeaterTimer.stop()
+                }
+            }
+
+            MouseArea {
+                id: scrollMA
+                anchors.fill: parent
+                drag.target: parent
+                drag.axis: "YAxis"
+                drag.minimumY: 0
+                drag.maximumY: scrollBar.height - scroll.height
+                onReleased: {
+                    scroll.y = (scrollBar.height - scroll.height) / 2
+                }
+            }
+
+            Behavior on y {
+                NumberAnimation { duration: 200 }
             }
         }
     }
@@ -211,70 +284,35 @@ Rectangle {
     Rectangle {
         id: middleButton
         gradient: Gradient {
-            GradientStop { position: 0.0; color: "#860000" }
-            GradientStop { position: 0.5; color: "#ff0000" }
-            GradientStop { position: 1.0; color: "#860000" }
+            GradientStop { position: 0.0; color: "white" }
+            GradientStop { position: 0.75; color: "#999" }
+            GradientStop { position: 1.0; color: "#333" }
         }
 
         height: 60
         width: parent.width * 0.1
 
+        radius: 4
+        z: 1
+        smooth: true
+
+        border {
+            width: 2
+            color: "black"
+        }
+
         anchors.bottom: parent.bottom
         anchors.left: leftButton.right
         anchors.top: leftButton.top
 
-        Rectangle {
-            id: scroll
-
-            color: "red"
-
-            height: parent.height / 2
-            y: (parent.height - height) / 2
-
-            onYChanged: {
-                if (y == scrollMA.drag.minimumY) {
-                    console.log("Scroll up")
-                    xte.send(server, port, "mouseclick 4")
-                    repeaterTimer.button = 4
-                    repeaterTimer.start()
-                } else if (y == scrollMA.drag.maximumY) {
-                    console.log("Scroll down")
-                    xte.send(server, port, "mouseclick 5")
-                    repeaterTimer.button = 5
-                    repeaterTimer.start()
-                } else {
-                    repeaterTimer.stop()
-                }
-            }
-
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-
-            MouseArea {
-                id: scrollMA
-                anchors.fill: parent
-                drag.target: parent
-                drag.axis: "YAxis"
-                drag.minimumY: 0
-                drag.maximumY: middleButton.height - scroll.height
-                // drag.filterChildren: false
-                onReleased: {
-                    scroll.y = (middleButton.height - scroll.height) / 2
-                }
-                onClicked: {
-                    console.log("middle clicked")
-                    xte.send(server, port, "mouseclick 2");
-                }
-            }
-
-            Behavior on y {
-                NumberAnimation { duration: 200 }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                console.log("middle clicked")
+                xte.send(server, port, "mouseclick 2");
             }
         }
     }
-
     Rectangle {
         id: rightButton
         gradient: Gradient {
