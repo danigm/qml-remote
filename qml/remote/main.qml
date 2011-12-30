@@ -18,12 +18,67 @@ Rectangle {
         id: xte
     }
 
+    Text {
+        id: serverLabel
+        text: "Server: "
+    }
+
     TextInput {
         id: serverInput
         text: server
 
+        anchors.left: serverLabel.right
+        anchors.right: parent.right
+
         onTextChanged: {
             server = text
+        }
+    }
+
+    Text {
+        id: textLabel
+        text: "text: "
+
+        anchors.left: parent.left
+        anchors.top: serverLabel.bottom
+    }
+
+    TextInput {
+        id: textInput
+
+        anchors.left: textLabel.right
+        anchors.top: serverLabel.bottom
+        anchors.right: parent.right
+
+        onAccepted: {
+            xte.send(server, port, "str " + textInput.text)
+            textInput.text = ""
+        }
+
+        Rectangle {
+            id: sendButton
+            width: 80
+            height: parent.height
+            color: "#4A9EFF"
+            radius: 8
+            smooth: true
+
+            anchors.right: parent.right
+            anchors.margins: 5
+
+            Text {
+                text: "Send"
+                anchors.centerIn: parent
+                color: "white"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    xte.send(server, port, "str " + textInput.text)
+                    textInput.text = ""
+                }
+            }
         }
     }
 
@@ -33,7 +88,7 @@ Rectangle {
         border.color: "black"
         color: "gray"
 
-        anchors.top: serverInput.bottom
+        anchors.top: textInput.bottom
         anchors.bottom: leftButton.top
         anchors.left: parent.left
         anchors.right: parent.right
