@@ -41,7 +41,7 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                console.log("clicked");
+                xte.send(server, port, "mouseclick 1")
             }
             onPressed: {
                 prevX = mouseX;
@@ -78,9 +78,13 @@ Rectangle {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: {
-                console.log("left clicked")
-                xte.send(server, port, "mouseclick 1");
+            onPressed: {
+                console.log("left button pressed")
+                xte.send(server, port, "mousedown 2")
+            }
+            onReleased: {
+                console.log("left button released")
+                xte.send(server, port, "mouseup 2")
             }
         }
     }
@@ -111,10 +115,14 @@ Rectangle {
             onYChanged: {
                 if (y == scrollMA.drag.minimumY) {
                     console.log("Scroll up")
-                    xte.send(server, port, "mouseclick 4")
+                    repeaterTimer.button = 4
+                    repeaterTimer.start()
                 } else if (y == scrollMA.drag.maximumY) {
                     console.log("Scroll down")
-                    xte.send(server, port, "mouseclick 5")
+                    repeaterTimer.button = 5
+                    repeaterTimer.start()
+                } else {
+                    repeaterTimer.stop()
                 }
             }
 
@@ -161,10 +169,27 @@ Rectangle {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: {
-                console.log("right clicked")
-                xte.send(server, port, "mouseclick 3");
+            onPressed: {
+                console.log("right button pressed")
+                xte.send(server, port, "mousedown 3")
             }
+            onReleased: {
+                console.log("right button released")
+                xte.send(server, port, "mouseup 3")
+            }
+        }
+    }
+
+    Timer {
+        id: repeaterTimer
+
+        property int button;
+        interval: 300
+        running: false
+        repeat: true
+        onTriggered: {
+            console.log("scroll button " + button);
+            xte.send(server, port, "mouseclick " + button)
         }
     }
 }
