@@ -77,19 +77,24 @@ Rectangle {
 
         Rectangle {
             id: sendButton
-            width: 80
+            width: parent.parent.width / 4
             height: parent.height
-            color: "#4A9EFF"
-            radius: 8
             smooth: true
 
+            border.width: 1
+
+            gradient: Gradient {
+            GradientStop { position: 0.0; color: "white" }
+            GradientStop { position: 0.75; color: "#ddd" }
+            GradientStop { position: 1.0; color: "#aaa" }
+            }
+
             anchors.right: parent.right
-            anchors.margins: 5
 
             Text {
                 text: "Send"
                 anchors.centerIn: parent
-                color: "white"
+                color: "black"
             }
 
             MouseArea {
@@ -104,14 +109,13 @@ Rectangle {
 
     Row {
         id: row
-        height: 30
+        height: sendButton.height
+        width: parent.width
         anchors {
             top: textInput.bottom
             left: parent.left
             right: parent.right
         }
-
-        spacing: 5
 
         Button {
             text: "Esc"
@@ -119,7 +123,7 @@ Rectangle {
         }
 
         Button {
-            text: "BackSpace"
+            text: "BSpace"
             key: "BackSpace"
         }
 
@@ -136,9 +140,14 @@ Rectangle {
 
     Rectangle {
         id: mouseDrag
-        border.width: 1
-        border.color: "black"
-        color: "gray"
+        smooth: true
+
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "#222" }
+            GradientStop { position: 0.05; color: "#111" }
+            GradientStop { position: 0.95; color: "#0a0a0a" }
+            GradientStop { position: 1.0; color: "#000" }
+        }
 
         anchors.top: row.bottom
         anchors.bottom: leftButton.top
@@ -170,9 +179,11 @@ Rectangle {
 
     Rectangle {
         id: leftButton
-        border.width: 1
-        border.color: "black"
-        color: "gray"
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "white" }
+            GradientStop { position: 0.75; color: "#ddd" }
+            GradientStop { position: 1.0; color: "#aaa" }
+        }
 
         height: 60
         width: parent.width * 0.45
@@ -195,9 +206,11 @@ Rectangle {
 
     Rectangle {
         id: middleButton
-        border.width: 1
-        border.color: "black"
-        color: "gray"
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "#860000" }
+            GradientStop { position: 0.5; color: "#ff0000" }
+            GradientStop { position: 1.0; color: "#860000" }
+        }
 
         height: 60
         width: parent.width * 0.1
@@ -209,8 +222,6 @@ Rectangle {
         Rectangle {
             id: scroll
 
-            border.width: 1
-            border.color: "black"
             color: "red"
 
             height: parent.height / 2
@@ -262,9 +273,11 @@ Rectangle {
 
     Rectangle {
         id: rightButton
-        border.width: 1
-        border.color: "black"
-        color: "gray"
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "white" }
+            GradientStop { position: 0.75; color: "#ddd" }
+            GradientStop { position: 1.0; color: "#aaa" }
+        }
 
         height: 60
         width: parent.width * 0.45

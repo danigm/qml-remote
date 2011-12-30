@@ -3,17 +3,21 @@ import QtQuick 1.0
 Rectangle {
     property string text
     property string key
-    width: 85
-    height: 30
+    width: parent.width / 4
+    border.width: 1
+    height: parent.height
 
-    color: "blue"
-    radius: 5
+    gradient: Gradient {
+        GradientStop { position: 0.0; color: "white" }
+        GradientStop { position: 0.75; color: "#ddd" }
+        GradientStop { position: 1.0; color: "#aaa" }
+    }
 
     Text {
         anchors.centerIn: parent
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
-        color: "white"
+        color: "black"
         text: parent.text
     }
 
