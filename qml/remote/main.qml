@@ -77,11 +77,11 @@ Rectangle {
             anchors.fill: parent
             onPressed: {
                 console.log("left button pressed")
-                xte.send(server, port, "mousedown 2")
+                xte.send(server, port, "mousedown 1")
             }
             onReleased: {
                 console.log("left button released")
-                xte.send(server, port, "mouseup 2")
+                xte.send(server, port, "mouseup 1")
             }
         }
     }
